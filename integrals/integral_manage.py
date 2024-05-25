@@ -17,6 +17,8 @@ def solve_integrals(expression,sub_intervals,type_method):
     if type_method == TRAPEZOIDAL_METHOD:
         integral_value =trapezoidal_rule(integrand,lower_limit,upper_limit,sub_intervals,func_str)
         return integral_value;
+    
+    elif type_method == JORGE:
         integral_value = jorge_rule(lower_limit,upper_limit,integrand,func_str)
         return integral_value
 
@@ -50,19 +52,15 @@ def jorge_rule(a, b,func,func_str):
     limit = a
     x=[]
     y=[]
-    xg =[]
-    yg = []
     z = [7,32,12,32,7]
 
     for i in range(0,4):
         x.append(limit)
         y.append(func(limit,func_str)*z[i])
-        yg.append(func(limit,func_str))
         limit += h
         if limit == b:
             x.append(limit)
             y.append(func(limit,func_str)*z[4])
-            yg.append(func(limit,func_str))
 
             break
     
@@ -82,8 +80,6 @@ def jorge_rule(a, b,func,func_str):
                     cellLoc='center',
                     loc='center')
 
-    plt.savefig("table_image.png")
-    xg = x
     plt.show()
     
     return ir
