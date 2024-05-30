@@ -17,6 +17,7 @@ def solve_integrals(expression,sub_intervals,type_method):
 
     if type_method == TRAPEZOIDAL_METHOD:
         integral_value =trapezoidal_rule(integrand,lower_limit,upper_limit,sub_intervals,func_str)
+
         return integral_value;
     
     elif type_method == JORGE:
@@ -67,6 +68,9 @@ def trapezoidal_rule(func, a, b, n, func_str):
 
     ir = (h * sum(y))/2
     show_table(x,y,ir,sum(y))
+    yg = [func(float(xi), func_str) for xi in x]
+    plot_points(x,yg)
+
     return ir
 def jorge_rule(a, b,func,func_str):
     h = (float(b) - float(a)) /4
@@ -87,7 +91,10 @@ def jorge_rule(a, b,func,func_str):
     
     addition = sum(y)
     ir = (2 * h * addition) / 45
+    yg = [func(float(xi), func_str) for xi in x]
     show_table(x,y,ir,addition)
+    plot_points(x,yg)
+
 
     
     return ir
@@ -107,6 +114,9 @@ def simpson_rule(a, b, func, func_str):
     print(y)
 
     show_table(x,y,integral,sum(y))
+    yg = [func(float(xi), func_str) for xi in x]
+    plot_points(x,yg)
+
 
     return float(integral)
 def simpson_1_3(a, b, func, func_str):
@@ -122,6 +132,10 @@ def simpson_1_3(a, b, func, func_str):
         addition = sum(y)
         ir = (h * addition) / 3
         show_table(x,y,ir,sum(y))
+        yg = [func(float(xi), func_str) for xi in x]
+        plot_points(x,yg)
+
+
         return ir
 def open_simpson (func, a, b, n, func_str):
     a = float(a)
@@ -134,6 +148,11 @@ def open_simpson (func, a, b, n, func_str):
     y = [(func(xi,func_str) if (i == 0 or i == n) else (func(xi,func_str)*2 if i% 2 == 0 else 4* func(xi,func_str)*4)) for i, xi in enumerate(x)]
     print(y)
     ir = (h * sum(y))/3
+    show_table(x,y,ir,sum(y))
+    yg = [func(float(xi), func_str) for xi in x]
+    plot_points(x,yg)
+
+
     return ir
 
 def show_table (x,y,ir,addition):
@@ -150,4 +169,10 @@ def show_table (x,y,ir,addition):
                     cellLoc='center',
                     loc='center')
 
+    plt.show()
+def plot_points(x, y):
+    plt.scatter(x, y, color='red')
+    plt.xlabel('x')
+    plt.ylabel('y')
+    plt.title('Puntos de integración')
     plt.show()
