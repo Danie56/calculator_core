@@ -103,7 +103,8 @@ def jorge_rule(a, b,func,func_str):
     plot_points(x,yg)
 
     
-    return 0
+    result = IntegralDataResponse(x,y,sum(y),float(ir))
+    return result
 
 
 def simpson_rule(a, b, func, func_str):
@@ -124,7 +125,8 @@ def simpson_rule(a, b, func, func_str):
     plot_points(x,yg)
 
 
-    return float(integral)
+    result = IntegralDataResponse(x,y,sum(y),float(integral))
+    return result
 def simpson_1_3(a, b, func, func_str):
         limit = a
         x=[]
@@ -141,8 +143,8 @@ def simpson_1_3(a, b, func, func_str):
         yg = [func(float(xi), func_str) for xi in x]
         plot_points(x,yg)
 
-
-        return ir
+        result = IntegralDataResponse(x,y,sum(y),float(ir))
+        return result
 def open_simpson (func, a, b, n, func_str):
     a = float(a)
     b = float(b)
@@ -159,7 +161,8 @@ def open_simpson (func, a, b, n, func_str):
     plot_points(x,yg)
 
 
-    return ir
+    result = IntegralDataResponse(x,y,sum(y),float(ir))
+    return result
 
 def show_table (x,y,ir,addition):
     data = {'x': x, 'y': y}
