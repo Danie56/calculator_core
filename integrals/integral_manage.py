@@ -1,3 +1,6 @@
+from typing import Optional
+
+from integrals.response.IntegralDataResponse import IntegralDataResponse
 from .models import Integral
 from .constants import *
 import numpy as np
@@ -5,6 +8,8 @@ import re
 import pandas as pd
 import matplotlib.pyplot as plt
 from fractions import Fraction
+
+
 
 def solve_integrals(expression,sub_intervals,type_method):
     match = re.search(r'\\int_{(-?\d*\.?\d+)}\^{(-?\d*\.?\d+)}\s+(.+?)\s*\\, dx', expression)
@@ -47,7 +52,6 @@ def integrand(x, func_str):
         'log': np.log,
         'log10': np.log10,
         'sqrt': np.sqrt,
-        'pi': np.pi,
         'e': np.e,
         'nth_root': nth_root  
 
@@ -70,8 +74,8 @@ def trapezoidal_rule(func, a, b, n, func_str):
     show_table(x,y,ir,sum(y))
     yg = [func(float(xi), func_str) for xi in x]
     plot_points(x,yg)
-
-    return ir
+    result = IntegralDataResponse(x,y,sum(y),float(ir))
+    return result
 def jorge_rule(a, b,func,func_str):
     h = (float(b) - float(a)) /4
     limit = a
@@ -92,12 +96,14 @@ def jorge_rule(a, b,func,func_str):
     addition = sum(y)
     ir = (2 * h * addition) / 45
     yg = [func(float(xi), func_str) for xi in x]
+
+    
+
     show_table(x,y,ir,addition)
     plot_points(x,yg)
 
-
     
-    return ir
+    return 0
 
 
 def simpson_rule(a, b, func, func_str):
@@ -140,7 +146,7 @@ def simpson_1_3(a, b, func, func_str):
 def open_simpson (func, a, b, n, func_str):
     a = float(a)
     b = float(b)
-    n = int(n)
+    n = int(n)  
     h = (b - a) / n
 
     x = [a + i * h for i in range(n + 1)]
