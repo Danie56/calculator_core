@@ -71,10 +71,8 @@ def trapezoidal_rule(func, a, b, n, func_str):
     y = [(func(xi,func_str) if (i == 0 or i == n) else 2 * func(xi,func_str)) for i, xi in enumerate(x)]
 
     ir = (h * sum(y))/2
-    show_table(x,y,ir,sum(y))
     yg = [func(float(xi), func_str) for xi in x]
-    plot_points(x,yg)
-    result = IntegralDataResponse(x,y,sum(y),float(ir))
+    result = IntegralDataResponse(x,y,yg,sum(y),float(ir))
     return result
 def jorge_rule(a, b,func,func_str):
     h = (float(b) - float(a)) /4
@@ -99,11 +97,9 @@ def jorge_rule(a, b,func,func_str):
 
     
 
-    show_table(x,y,ir,addition)
-    plot_points(x,yg)
 
     
-    result = IntegralDataResponse(x,y,sum(y),float(ir))
+    result = IntegralDataResponse(x,y,yg,sum(y),float(ir))
     return result
 
 
@@ -122,10 +118,9 @@ def simpson_rule(a, b, func, func_str):
 
     show_table(x,y,integral,sum(y))
     yg = [func(float(xi), func_str) for xi in x]
-    plot_points(x,yg)
 
 
-    result = IntegralDataResponse(x,y,sum(y),float(integral))
+    result = IntegralDataResponse(x,y,yg,sum(y),float(integral))
     return result
 def simpson_1_3(a, b, func, func_str):
         limit = a
@@ -141,9 +136,8 @@ def simpson_1_3(a, b, func, func_str):
         ir = (h * addition) / 3
         show_table(x,y,ir,sum(y))
         yg = [func(float(xi), func_str) for xi in x]
-        plot_points(x,yg)
 
-        result = IntegralDataResponse(x,y,sum(y),float(ir))
+        result = IntegralDataResponse(x,y,yg,sum(y),float(ir))
         return result
 def open_simpson (func, a, b, n, func_str):
     a = float(a)
@@ -156,12 +150,9 @@ def open_simpson (func, a, b, n, func_str):
     y = [(func(xi,func_str) if (i == 0 or i == n) else (func(xi,func_str)*2 if i% 2 == 0 else 4* func(xi,func_str)*4)) for i, xi in enumerate(x)]
     print(y)
     ir = (h * sum(y))/3
-    show_table(x,y,ir,sum(y))
     yg = [func(float(xi), func_str) for xi in x]
-    plot_points(x,yg)
 
-
-    result = IntegralDataResponse(x,y,sum(y),float(ir))
+    result = IntegralDataResponse(x,y,yg,sum(y),float(ir))
     return result
 
 def show_table (x,y,ir,addition):
