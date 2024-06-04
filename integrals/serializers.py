@@ -11,6 +11,9 @@ class IntegralSerializer(serializers.ModelSerializer):
         expression= validated_data['expression']
         sub_intervals=validated_data['sub_intervals']
         type_method=validated_data['type_method']
+        result_object = solve_integrals(expression, sub_intervals, type_method)
+    
+        validated_data['result']= result_object.result
+        Integral.objects.create(**validated_data) 
 
-        validated_data['result']= solve_integrals(expression,sub_intervals,type_method)
-        return Integral.objects.create(**validated_data)
+        return result_object

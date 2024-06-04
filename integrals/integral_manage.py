@@ -1,3 +1,6 @@
+from typing import Optional
+
+from integrals.response.IntegralDataResponse import IntegralDataResponse
 from .models import Integral
 from .constants import *
 import numpy as np
@@ -5,6 +8,8 @@ import re
 import pandas as pd
 import matplotlib.pyplot as plt
 from fractions import Fraction
+
+
 
 def solve_integrals(expression,sub_intervals,type_method):
     match = re.search(r'\\int_{(-?\d*\.?\d+)}\^{(-?\d*\.?\d+)}\s+(.+?)\s*\\, dx', expression)
@@ -36,7 +41,7 @@ def solve_integrals(expression,sub_intervals,type_method):
         return integral_value;
 
 def nth_root(x, n):
-    return np.power(x, 1/n)
+    return np.sign(x) * np.abs(x) ** (1/n)
 
 def integrand(x, func_str):
     allowed_funcs = {
@@ -47,7 +52,6 @@ def integrand(x, func_str):
         'log': np.log,
         'log10': np.log10,
         'sqrt': np.sqrt,
-        'pi': np.pi,
         'e': np.e,
         'nth_root': nth_root  
 
@@ -67,11 +71,9 @@ def trapezoidal_rule(func, a, b, n, func_str):
     y = [(func(xi,func_str) if (i == 0 or i == n) else 2 * func(xi,func_str)) for i, xi in enumerate(x)]
 
     ir = (h * sum(y))/2
-    show_table(x,y,ir,sum(y))
     yg = [func(float(xi), func_str) for xi in x]
-    plot_points(x,yg)
-
-    return ir
+    result = IntegralDataResponse(x,y,yg,sum(y),float(ir))
+    return result
 def jorge_rule(a, b,func,func_str):
     h = (float(b) - float(a)) /4
     limit = a
@@ -92,12 +94,13 @@ def jorge_rule(a, b,func,func_str):
     addition = sum(y)
     ir = (2 * h * addition) / 45
     yg = [func(float(xi), func_str) for xi in x]
-    show_table(x,y,ir,addition)
-    plot_points(x,yg)
+
+    
 
 
     
-    return ir
+    result = IntegralDataResponse(x,y,yg,sum(y),float(ir))
+    return result
 
 
 def simpson_rule(a, b, func, func_str):
@@ -113,12 +116,11 @@ def simpson_rule(a, b, func, func_str):
     integral = ((y[0] + 3*y[1] + 3*y[2] + y[3]) * 3 * h) / 8
     print(y)
 
-    show_table(x,y,integral,sum(y))
     yg = [func(float(xi), func_str) for xi in x]
-    plot_points(x,yg)
 
 
-    return float(integral)
+    result = IntegralDataResponse(x,y,yg,sum(y),float(integral))
+    return result
 def simpson_1_3(a, b, func, func_str):
         limit = a
         x=[]
@@ -131,29 +133,27 @@ def simpson_1_3(a, b, func, func_str):
         y=[func(x[0],func_str),(func(x[1],func_str))*4,func(x[2],func_str)]
         addition = sum(y)
         ir = (h * addition) / 3
-        show_table(x,y,ir,sum(y))
         yg = [func(float(xi), func_str) for xi in x]
-        plot_points(x,yg)
 
-
-        return ir
+        result = IntegralDataResponse(x,y,yg,sum(y),float(ir))
+        return result
 def open_simpson (func, a, b, n, func_str):
     a = float(a)
     b = float(b)
-    n = int(n)
+    n = int(n)  
     h = (b - a) / n
 
     x = [a + i * h for i in range(n + 1)]
 
-    y = [(func(xi,func_str) if (i == 0 or i == n) else (func(xi,func_str)*2 if i% 2 == 0 else 4* func(xi,func_str)*4)) for i, xi in enumerate(x)]
+    y = [(func(xi,func_str) if (i == 0 or i == n) else (func(xi,func_str)*2 if i% 2 == 0 else  func(xi,func_str)*4)) for i, xi in enumerate(x)]
+
+        
     print(y)
     ir = (h * sum(y))/3
-    show_table(x,y,ir,sum(y))
     yg = [func(float(xi), func_str) for xi in x]
-    plot_points(x,yg)
 
-
-    return ir
+    result = IntegralDataResponse(x,y,yg,sum(y),float(ir))
+    return result
 
 def show_table (x,y,ir,addition):
     data = {'x': x, 'y': y}
