@@ -116,7 +116,6 @@ def simpson_rule(a, b, func, func_str):
     integral = ((y[0] + 3*y[1] + 3*y[2] + y[3]) * 3 * h) / 8
     print(y)
 
-    show_table(x,y,integral,sum(y))
     yg = [func(float(xi), func_str) for xi in x]
 
 
