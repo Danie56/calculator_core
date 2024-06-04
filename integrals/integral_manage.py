@@ -41,7 +41,7 @@ def solve_integrals(expression,sub_intervals,type_method):
         return integral_value;
 
 def nth_root(x, n):
-    return np.power(x, 1/n)
+    return np.sign(x) * np.abs(x) ** (1/n)
 
 def integrand(x, func_str):
     allowed_funcs = {
@@ -134,7 +134,6 @@ def simpson_1_3(a, b, func, func_str):
         y=[func(x[0],func_str),(func(x[1],func_str))*4,func(x[2],func_str)]
         addition = sum(y)
         ir = (h * addition) / 3
-        show_table(x,y,ir,sum(y))
         yg = [func(float(xi), func_str) for xi in x]
 
         result = IntegralDataResponse(x,y,yg,sum(y),float(ir))
@@ -147,7 +146,9 @@ def open_simpson (func, a, b, n, func_str):
 
     x = [a + i * h for i in range(n + 1)]
 
-    y = [(func(xi,func_str) if (i == 0 or i == n) else (func(xi,func_str)*2 if i% 2 == 0 else 4* func(xi,func_str)*4)) for i, xi in enumerate(x)]
+    y = [(func(xi,func_str) if (i == 0 or i == n) else (func(xi,func_str)*2 if i% 2 == 0 else  func(xi,func_str)*4)) for i, xi in enumerate(x)]
+
+        
     print(y)
     ir = (h * sum(y))/3
     yg = [func(float(xi), func_str) for xi in x]
